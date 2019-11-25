@@ -4,7 +4,10 @@ deploy-backend:
 	pipenv run ansible-playbook site.yml --tags backend --extra-vars "namespace=${NAMESPACE}"
 
 deploy-frontend:
-	pipenv run ansible-playbook site.yml --tags backend --extra-vars "namespace=${NAMESPACE}"
+	pipenv run ansible-playbook site.yml --tags frontend --extra-vars "namespace=${NAMESPACE}"
+
+remove-frontend:
+	pipenv run ansible-playbook site.yml --tags frontend --extra-vars "namespace=${NAMESPACE} state=absent"
 
 s2i-build:
 	pipenv run ansible-playbook site.yml --tags s2ibuild --extra-vars "namespace=${NAMESPACE}"

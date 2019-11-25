@@ -48,7 +48,7 @@ spec:
     - type: "ConfigChange"
     - type: "ImageChange"
       imageChangeParams:
-        automatic: "{{autoDC}}"
+        automatic: {{autoDC | bool}}
         containerNames:
           - "kbit-ui"
         from:
