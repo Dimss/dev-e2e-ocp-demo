@@ -1,0 +1,11 @@
+kind: ImageStream
+apiVersion: v1
+metadata:
+  namespace: "kbit"
+  name: "kbit-ui"
+spec:
+  tags:
+  - name: "latest"
+    from:
+      kind: DockerImage
+      name: "image-registry.openshift-image-registry.svc:5000/kbit/ui:latest"

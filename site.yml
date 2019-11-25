@@ -1,0 +1,21 @@
+- name: DevDemo
+  hosts: 127.0.0.1
+  connection: local
+  gather_facts: no
+  tasks:
+  - name: backend
+    import_role:
+      name: backend
+    tags: "backend"
+  - name: frontend
+    import_role:
+      name: frontend
+    tags: "frontend"
+  - name: s2i build
+    import_role:
+      name: s2ibuild
+    tags: "s2ibuild"
+  - name: s2i build with trigger
+    import_role:
+      name: s2ibuild-trigger
+    tags: "s2ibuild-trigger"

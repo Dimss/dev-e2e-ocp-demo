@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Route
+metadata:
+  name: "kbit-api"
+  namespace: "kbit"
+spec:
+  to:
+    kind: Service
+    name: "kbit-api"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "kbit-api"
+  namespace: "kbit"
+spec:
+  selector:
+    app: "kbit-api"
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+---
+kind: DeploymentConfig
+apiVersion: "v1"
+metadata:
+  labels:
+    app: "kbit-api"
+  name: "kbit-api"
+  namespace: "kbit"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: "kbit-api"
+    spec:
+      containers:
+      - name: "kbit-api"
+        image: "docker.io/dimssss/kbit-api:latest"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: prod
+        - name: DB_USER
+          value: kbit
+        - name: DB_PASS
+          value: kbit
+        - name: DB_NAME
+          value: kbit
+        - name: DB_IP
+          value: kbitdb

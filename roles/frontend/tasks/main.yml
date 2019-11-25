@@ -1,0 +1,4 @@
+- name: dc
+  k8s:
+    state: "{{state}}"
+    definition: "{{ lookup('template', 'templates/dc.yml') }}"

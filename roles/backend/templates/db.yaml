@@ -1,0 +1,116 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    template: postgresql-ephemeral-template
+  name: kbitdb
+  namespace: kbit
+stringData:
+  database-name: kbit
+  database-password: kbit
+  database-user: kbit
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    template: postgresql-ephemeral-template
+  name: kbitdb
+  namespace: kbit
+spec:
+  ports:
+  - name: postgresql
+    nodePort: 0
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    name: kbitdb
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    template.alpha.openshift.io/wait-for-ready: 'true'
+  labels:
+    template: postgresql-ephemeral-template
+  name: kbitdb
+  namespace: kbit
+spec:
+  replicas: 1
+  selector:
+    name: kbitdb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        name: kbitdb
+    spec:
+      containers:
+      - capabilities: {}
+        env:
+        - name: POSTGRESQL_USER
+          valueFrom:
+            secretKeyRef:
+              key: database-user
+              name: kbitdb
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: database-password
+              name: kbitdb
+        - name: POSTGRESQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              key: database-name
+              name: kbitdb
+        image: " "
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - "/usr/libexec/check-container"
+            - "--live"
+          initialDelaySeconds: 120
+          timeoutSeconds: 10
+        name: postgresql
+        ports:
+        - containerPort: 5432
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - "/usr/libexec/check-container"
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        resources:
+          limits:
+            memory: 512Mi
+        securityContext:
+          capabilities: {}
+          privileged: false
+        terminationMessagePath: "/dev/termination-log"
+        volumeMounts:
+        - mountPath: "/var/lib/pgsql/data"
+          name: kbitdb-data
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - emptyDir:
+          medium: ''
+        name: kbitdb-data
+  triggers:
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - postgresql
+      from:
+        kind: ImageStreamTag
+        name: postgresql:10
+        namespace: openshift
+      lastTriggeredImage: ''
+    type: ImageChange
+  - type: ConfigChange

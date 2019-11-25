@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Route
+metadata:
+  name: "kbit-ui"
+  namespace: "kbit"
+spec:
+  to:
+    kind: Service
+    name: "kbit-ui"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "kbit-ui"
+  namespace: "kbit"
+spec:
+  selector:
+    app: "kbit-ui"
+  ports:
+  - name: http
+    port: 3000
+    targetPort: 3000
+---
+kind: DeploymentConfig
+apiVersion: "v1"
+metadata:
+  name: "kbit-ui"
+  namespace: "kbit"
+  labels:
+    app: "kbit-ui"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: "kbit-ui"
+    spec:
+      containers:
+      - name: "kbit-ui"
+        image: " "
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        env:
+        - name: API_URL
+          value: "http://kbit-api-kbit.apps.b.okto.ocplab.io"
+  triggers:
+    - type: "ConfigChange"
+    - type: "ImageChange"
+      imageChangeParams:
+        automatic: "{{autoDC}}"
+        containerNames:
+          - "kbit-ui"
+        from:
+          kind: "ImageStreamTag"
+          name: "kbit-ui:latest"
+          namespace: "kbit"

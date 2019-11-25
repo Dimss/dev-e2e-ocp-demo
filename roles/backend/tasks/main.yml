@@ -1,0 +1,9 @@
+- name: api
+  k8s:
+    state: "{{state}}"
+    definition: "{{ lookup('template', 'templates/api.yaml') }}"
+
+- name: db
+  k8s:
+    state: "{{state}}"
+    definition: "{{ lookup('template', 'templates/db.yaml') }}"

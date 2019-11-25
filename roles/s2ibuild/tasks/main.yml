@@ -1,0 +1,9 @@
+- name: is
+  k8s:
+    state: "{{state}}"
+    definition: "{{ lookup('template', 'templates/is.yml') }}"
+
+- name: bc
+  k8s:
+    state: "{{state}}"
+    definition: "{{ lookup('template', 'templates/bc.yml') }}"
