@@ -1,0 +1,22 @@
+kind: "BuildConfig"
+apiVersion: "v1"
+metadata:
+  name: "custom-builer"
+  namespace: "kbit"
+spec:
+  runPolicy: "Serial"
+  source:
+    git:
+      uri: "https://github.com/Dimss/custom-ocp-builder.git"
+      ref: "master"
+  strategy:
+    dockerStrategy:
+      from:
+        kind: "DockerImage"
+        name: "openshift/origin:latest"
+  output:
+    to:
+      kind: "DockerImage"
+      name: "docker.io/dimssss/custom-builder:29"
+    pushSecret:
+      name: "docker-io"

@@ -12,6 +12,9 @@ remove-frontend:
 s2i-build:
 	pipenv run ansible-playbook site.yml --tags s2ibuild --extra-vars "namespace=${NAMESPACE}"
 
+docker-build:
+	pipenv run ansible-playbook site.yml --tags dockerBuild --extra-vars "namespace=${NAMESPACE}"
+
 s2i-build-trigger:
 	pipenv run ansible-playbook site.yml --tags s2ibuild-trigger --extra-vars "namespace=${NAMESPACE}"
 

@@ -1,0 +1,4 @@
+- name: bc
+  k8s:
+    state: "{{state}}"
+    definition: "{{ lookup('template', 'templates/bc.yaml') }}"

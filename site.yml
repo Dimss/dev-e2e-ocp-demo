@@ -19,3 +19,7 @@
     import_role:
       name: s2ibuild-trigger
     tags: "s2ibuild-trigger"
+  - name: docker build
+    import_role:
+      name: dockerBuild
+    tags: "dockerBuild"

@@ -1,6 +1,15 @@
 # Dev & Ops OCP Demo
 
+## CI 
 ### Demo 1 - S2I build 
+```bash
+# Create build objects 
+make s2i-build
+# Start the build either from cli or from ui
+oc start-build -F ui
+``` 
+
+### Demo 2 - Custom build 
 ```bash
 # Create build objects 
 make s2i-build
@@ -15,6 +24,9 @@ make s2i-build
 # Start the build either from cli or from ui
 oc start-build -F ui
 ``` 
+
+
+## CD
 
 ### Demo 3 - Simple deploy  
 ```bash

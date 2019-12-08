@@ -8,6 +8,7 @@ spec:
   source:
     git:
       uri: "https://github.com/Dimss/kbit-ui"
+      ref: "master"
   strategy:
     sourceStrategy:
       from:
