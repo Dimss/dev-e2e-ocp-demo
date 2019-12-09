@@ -23,3 +23,7 @@
     import_role:
       name: dockerBuild
     tags: "dockerBuild"
+  - name: custom build
+    import_role:
+      name: customBuild
+    tags: "customBuild"

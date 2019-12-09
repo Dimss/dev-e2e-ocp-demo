@@ -1,7 +1,7 @@
 kind: "BuildConfig"
 apiVersion: "v1"
 metadata:
-  name: "custom-builer"
+  name: "docker-build"
   namespace: "kbit"
 spec:
   runPolicy: "Serial"
@@ -17,6 +17,6 @@ spec:
   output:
     to:
       kind: "DockerImage"
-      name: "docker.io/dimssss/custom-builder:29"
+      name: "docker.io/dimssss/custom-builder:31"
     pushSecret:
       name: "docker-io"

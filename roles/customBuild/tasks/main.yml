@@ -1,9 +1,21 @@
-- name: is
+- name: secret
   k8s:
     state: "{{state}}"
-    definition: "{{ lookup('template', 'templates/is.yml') }}"
+    definition: "{{ lookup('template', 'templates/secret.yaml') }}"
 
 - name: bc
   k8s:
     state: "{{state}}"
-    definition: "{{ lookup('template', 'templates/bc.yml') }}"
+    definition: "{{ lookup('template', 'templates/bc.yaml') }}"
+
+- name: clsuter role binding
+  k8s:
+    state: "{{state}}"
+    definition: "{{ lookup('template', 'templates/cluster-role-binding.yaml') }}"
+
+- name: cleanup custom build resources
+  shell: |
+    oc delete is kbit-ui-is
+    oc delete bc kbit-ui-s2i-build
+  when: state  == 'absent'
+  ignore_errors: yes

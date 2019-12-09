@@ -15,6 +15,16 @@ s2i-build:
 docker-build:
 	pipenv run ansible-playbook site.yml --tags dockerBuild --extra-vars "namespace=${NAMESPACE}"
 
+remove-docker-build:
+	pipenv run ansible-playbook site.yml --tags dockerBuild --extra-vars "namespace=${NAMESPACE} state=absent"
+
+custom-build:
+	pipenv run ansible-playbook site.yml --tags customBuild --extra-vars "namespace=${NAMESPACE}"
+
+remove-custom-build:
+	pipenv run ansible-playbook site.yml --tags customBuild --extra-vars "namespace=${NAMESPACE} state=absent"
+
+
 s2i-build-trigger:
 	pipenv run ansible-playbook site.yml --tags s2ibuild-trigger --extra-vars "namespace=${NAMESPACE}"
 

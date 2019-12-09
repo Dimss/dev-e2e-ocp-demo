@@ -1,7 +1,7 @@
 kind: "BuildConfig"
 apiVersion: "v1"
 metadata:
-  name: "ui"
+  name: "s2i-build"
   namespace: "kbit"
 spec:
   runPolicy: "Serial"
